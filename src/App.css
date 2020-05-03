@@ -15,3 +15,27 @@
   grid-template-rows: auto auto auto;
   max-width:400px;
 }
+
+.record-button {
+  box-shadow: none;
+  border: 10px solid red;
+  background-color:rgb(255,128,128);
+  border-radius:50%;
+  width:2rem;
+  height:2rem;
+  margin:10px;
+}
+.record-button:focus {
+  outline:none;
+}
+
+.recording-style {
+  box-shadow: #f00 0 0 30px;
+}
+
+.play-button {
+  background-color: transparent;
+  border:none;
+  font-size: 20px;
+  margin: 10px;
+}
