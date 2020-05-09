@@ -14,7 +14,9 @@ const App = ({ drumData }) => {
   const [isRecording, setIsRecording] = React.useState(false);
   const [start, setStart] = React.useState(null);
   const [events, setEvents] = React.useState([]);
-  var timeout = null; 
+  const [timeout, setGTimeout] = React.useState(null); 
+  let timeoutList = [];
+  const [isPlaying, setIsPlaying] = React.useState(false)
 
   const getIsRecording = () => {
     return isRecording
@@ -23,13 +25,15 @@ const App = ({ drumData }) => {
   const getEvents = () => {
     return events;
   }
-  const play = (events) => {
+  const play = () => {
+    let events = getEvents();
     console.log("PLAY FUNCTION RAN");
+    console.log("events in PLAY: ", events);
     if(events.length === 0){
-      timeout = setTimeout(() => play(events),2000);
+      setGTimeout(setTimeout(() => play(),2000)) 
       return;
     }
-    console.log("events: ", events);
+  
     // bpm is 120
     // Quantizing 
     let newEvents = [];
@@ -48,7 +52,6 @@ const App = ({ drumData }) => {
     });
 
     newEvents.map((event) => {
-      // let timeInFuture = event.time - start;
       let timeInFuture = event.quantizedEvent;
       console.log("timeInFuture: ", timeInFuture);
       // truncate after 2 seconds
@@ -56,14 +59,16 @@ const App = ({ drumData }) => {
       //   return;
       // }
       // TODO: clear timeout to pause the song
-      setTimeout(() => {
+      let t = setTimeout(() => {
         console.log(event);
+        
         // TODO: Download the sounds so that it doesn't break when the url changes
         playAudio(event.data.url)
       },timeInFuture);
+      timeoutList.push(t);
     })
 
-   timeout = setTimeout(() => play(events),2000)
+   setGTimeout(setTimeout(() => play(),2000))
   }
   
   const addEvent = (data) => {
@@ -74,10 +79,12 @@ const App = ({ drumData }) => {
   }
 
   const stop = () => {
+    console.log("STOP FUNCTION RAN")
     // stop the party
     clearTimeout(timeout);
-
-
+    // to = time out
+    timeoutList.map((to) => clearTimeout(to))
+    timeoutList = [];    
   }
 
   const toggleRecording = () => {
@@ -87,7 +94,7 @@ const App = ({ drumData }) => {
           stop()
           console.log("events: ", events);
       } else {
-          play(getEvents())
+          play()
           setIsRecording(true)
           setEvents([]);
           // TODO: as soon as user hits first note, start the 2 second delay
@@ -108,8 +115,7 @@ const App = ({ drumData }) => {
                                   onHit={playAudioFromDrumPad} />)}
           </div>
           <div className="action-list">
-            <RecordButton onPlay={() => play(getEvents())}
-                          getIsRecording={getIsRecording}
+            <RecordButton getIsRecording={getIsRecording}
                           onRecord={toggleRecording}/>
             <RecordingBar/>
           </div>
