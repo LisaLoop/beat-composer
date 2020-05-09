@@ -1,5 +1,6 @@
 import React from 'react';
 import {playAudioFromDrumPad, playAudioFromKeyboard, DrumPad, RecordButton, PlayButton, playAudio} from './drum-machine'
+import {RecordingBar} from './recording-bar'
 import './App.css';
 
 /* TODO
@@ -81,19 +82,26 @@ const App = ({ drumData }) => {
       }
   }
   return (
-    <main onKeyPress={e => { console.log(e.key); playAudioFromKeyboard(drumData, e.key); }}>
-      <div className="pad">
-      {drumData
-        .map(data => <DrumPad getIsRecording={getIsRecording}
-                              addEventHandler={addEvent} 
-                              key={data.id} data={data} 
-                              onHit={playAudioFromDrumPad} />)}
-      </div>
-      <div style={{width: "100%", textAlign:"center"}}>
-        <RecordButton getIsRecording={getIsRecording} onRecord={toggleRecording}/>
-        <PlayButton onPlay={() => play(getEvents())}/>
-      </div>
-    </main>
+    <>
+      <h1 style={{textAlign:"center"}}>Beats Composer</h1>
+      <main onKeyPress={e => { console.log(e.key); playAudioFromKeyboard(drumData, e.key); }}>
+        <div style={{textAlign:"center"}}>
+          <div className="pad">
+          {drumData
+            .map(data => <DrumPad getIsRecording={getIsRecording}
+                                  addEventHandler={addEvent} 
+                                  key={data.id} data={data} 
+                                  label={`${data.id} - ${data.keyTrigger}`}
+                                  onHit={playAudioFromDrumPad} />)}
+          </div>
+          <div className="action-list">
+            <RecordButton getIsRecording={getIsRecording} onRecord={toggleRecording}/>
+            <PlayButton onPlay={() => play(getEvents())}/>
+            <RecordingBar/>
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

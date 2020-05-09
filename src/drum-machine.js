@@ -23,17 +23,19 @@ export const playAudioFromDrumPad = ({ url }) => {
     playAudio(url)
 };
 
-export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler}) => {
+export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, label}) => {
     const clickHandler = () => {
         console.log("getIsRecording:", getIsRecording());
         if(getIsRecording()){
             addEventHandler(data)        
         }
         onHit(data)
-    }
-    return <button className="key" onClick={clickHandler}>{data.id}</button>;
+	}
+	// label has the name of the sound and the keyboard code
+	return <>
+			<button className="key" onMouseDown={clickHandler}>{`${data.id} - ${data.keyTrigger}`}</button>
+		   </>
 }
-
 
 export const RecordButton = ({onRecord, getIsRecording}) => {
     return (

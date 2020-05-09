@@ -2,8 +2,15 @@
   font-family: 'Roboto Sans', 'sans serif';
   font-size: 20px;
 }
+.action-list {
+  display: flex;
+  justify-content: center;
+  margin-top:20px;
+}
+
 .key {
-  height:100px;
+  height:180px;
+  width:180px;
   cursor: pointer;
   margin:.25rem;
 }
@@ -13,7 +20,7 @@
   display:grid;
   grid-template-columns: auto auto auto;
   grid-template-rows: auto auto auto;
-  max-width:400px;
+  max-width:570px;
 }
 
 .record-button {
@@ -38,4 +45,19 @@
   border:none;
   font-size: 20px;
   margin: 10px;
+}
+
+.external-record-bar, .internal-record-bar {
+  height:50px;
+  border-radius: 25px;
+}
+
+.external-record-bar {
+  width:400px;
+  background-color: rgb(235,85,159);
+}
+
+.internal-record-bar {
+  width:30%;
+  background-color: rgb(85, 235, 118); 
 }
