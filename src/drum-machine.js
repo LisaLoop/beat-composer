@@ -37,7 +37,7 @@ export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, label}) 
 		   </>
 }
 
-export const RecordButton = ({onRecord, getIsRecording}) => {
+export const RecordButton = ({onRecord, getIsRecording, onPlay}) => {
     return (
         <button 
         className={`record-button ${getIsRecording() ? 'recording-style':''}`}
@@ -45,11 +45,11 @@ export const RecordButton = ({onRecord, getIsRecording}) => {
     )
 }
 
-export const PlayButton = ({onPlay}) => {
-    return (
-        <button className="play-button" onClick={onPlay}>⏯</button>
-    )
-}
+// export const PlayButton = ({onPlay}) => {
+//     return (
+//         <button className="play-button" onClick={onPlay}>⏯</button>
+//     )
+// }
 
 /*** 
  * 	sounds = []

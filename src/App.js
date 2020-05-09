@@ -1,5 +1,5 @@
 import React from 'react';
-import {playAudioFromDrumPad, playAudioFromKeyboard, DrumPad, RecordButton, PlayButton, playAudio} from './drum-machine'
+import {playAudioFromDrumPad, playAudioFromKeyboard, DrumPad, RecordButton, playAudio} from './drum-machine'
 import {RecordingBar} from './recording-bar'
 import './App.css';
 
@@ -14,7 +14,8 @@ const App = ({ drumData }) => {
   const [isRecording, setIsRecording] = React.useState(false);
   const [start, setStart] = React.useState(null);
   const [events, setEvents] = React.useState([]);
-  
+  var timeout = null; 
+
   const getIsRecording = () => {
     return isRecording
   }
@@ -23,8 +24,9 @@ const App = ({ drumData }) => {
     return events;
   }
   const play = (events) => {
+    console.log("PLAY FUNCTION RAN");
     if(events.length === 0){
-      setTimeout(() => play(events),2000)
+      timeout = setTimeout(() => play(events),2000);
       return;
     }
     console.log("events: ", events);
@@ -61,7 +63,7 @@ const App = ({ drumData }) => {
       },timeInFuture);
     })
 
-    setTimeout(() => play(events),2000)
+   timeout = setTimeout(() => play(events),2000)
   }
   
   const addEvent = (data) => {
@@ -70,11 +72,22 @@ const App = ({ drumData }) => {
     // console.log("pitch: ", pitch);
     setEvents(events)
   }
+
+  const stop = () => {
+    // stop the party
+    clearTimeout(timeout);
+
+
+  }
+
   const toggleRecording = () => {
+    console.log("RECORD FUNCTION RAN");
       if(isRecording){
           setIsRecording(false)
+          stop()
           console.log("events: ", events);
       } else {
+          play(getEvents())
           setIsRecording(true)
           setEvents([]);
           // TODO: as soon as user hits first note, start the 2 second delay
@@ -95,8 +108,9 @@ const App = ({ drumData }) => {
                                   onHit={playAudioFromDrumPad} />)}
           </div>
           <div className="action-list">
-            <RecordButton getIsRecording={getIsRecording} onRecord={toggleRecording}/>
-            <PlayButton onPlay={() => play(getEvents())}/>
+            <RecordButton onPlay={() => play(getEvents())}
+                          getIsRecording={getIsRecording}
+                          onRecord={toggleRecording}/>
             <RecordingBar/>
           </div>
         </div>
