@@ -1,6 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@400;900&display=swap');
 * {
-  font-family: 'Roboto Sans', 'sans serif';
+  font-family: 'Roboto', sans-serif;
   font-size: 20px;
+}
+.title {
+  font-family: 'Righteous', cursive;
+  font-size: 36px;
 }
 .action-list {
   display: flex;
@@ -13,6 +18,7 @@
   width:180px;
   cursor: pointer;
   margin:.25rem;
+  border:none;
 }
 .pad {
   margin:0 auto;
@@ -61,3 +67,5 @@
   width:30%;
   background-color: rgb(85, 235, 118); 
 }
+
+/* ["rgb(195, 91, 226)","rgb(190, 235, 76)","rgb(80, 230, 167)","rgb(98, 212, 243)","rgb(73, 232, 244)","rgb(206, 59, 235)","rgb(62, 179, 233)","rgb(100, 233, 73)","rgb(81, 75, 233)"] */

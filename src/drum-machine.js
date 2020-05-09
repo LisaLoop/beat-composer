@@ -1,43 +1,57 @@
 import React from 'react'
+import {getPastelColors, getSaturatedColors} from './colors'
 
 // 120 bpm = 2hrtz
 
-export const playAudio = (url) => {
+export const playAudio = (data) => {
   let audio = document.createElement("audio");
-  audio.src = url; 
-  const playAudio = () => {
+  audio.src = data.url; 
+  const innerPlayAudio = () => {
     audio.play();
-    audio.removeEventListener("canplay", playAudio);
+    audio.removeEventListener("canplay", innerPlayAudio);
     audio = null;
   };
-  audio.addEventListener("canplay", playAudio);
+  audio.addEventListener("canplay", innerPlayAudio);
+  const pastelColors = getPastelColors();
+  const saturatedColors = getSaturatedColors();
+  document.getElementById(data.id).style.backgroundColor = saturatedColors[data.color];
+  setTimeout(()=> {
+	document.getElementById(data.id).style.backgroundColor = pastelColors[data.color];
+  },125)
 };
 
 export const playAudioFromKeyboard = (drums, code) => {
   const letter = code.toLowerCase();
   const data = drums.find(drum => drum.keyTrigger.toLowerCase() === letter);
-  if (data) playAudio(data.url);
+  console.log("data.id: ", data.id)
+  if (data) playAudio(data);
 };
 
-export const playAudioFromDrumPad = ({ url }) => {
-    playAudio(url)
+export const playAudioFromDrumPad = (data) => {
+	console.log("data:", data);
+    playAudio(data)
 };
 
-export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, label}) => {
+export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, color}) => {
+	console.log("data in drumpad: ", data);
     const clickHandler = () => {
-        console.log("getIsRecording:", getIsRecording());
+        // console.log("getIsRecording:", getIsRecording());
         if(getIsRecording()){
             addEventHandler(data)        
         }
         onHit(data)
 	}
 	// label has the name of the sound and the keyboard code
-	return <>
-			<button className="key" onMouseDown={clickHandler}>{`${data.id} - ${data.keyTrigger}`}</button>
-		   </>
+	return 	<button
+				id={data.id} 
+				style={{backgroundColor: color}}
+				className="key" 
+				onMouseDown={clickHandler}>{`${data.id} - ${data.keyTrigger}`}
+			</button>
+		
 }
 
-export const RecordButton = ({onRecord, getIsRecording, onPlay}) => {
+export const RecordButton = ({onRecord, getIsRecording}) => {
     return (
         <button 
         className={`record-button ${getIsRecording() ? 'recording-style':''}`}
@@ -45,11 +59,11 @@ export const RecordButton = ({onRecord, getIsRecording, onPlay}) => {
     )
 }
 
-// export const PlayButton = ({onPlay}) => {
-//     return (
-//         <button className="play-button" onClick={onPlay}>⏯</button>
-//     )
-// }
+export const DownloadButton = () => {
+	return (
+		<button>Download</button>
+	)
+}
 
 /*** 
  * 	sounds = []

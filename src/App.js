@@ -1,5 +1,6 @@
 import React from 'react';
 import {playAudioFromDrumPad, playAudioFromKeyboard, DrumPad, RecordButton, playAudio} from './drum-machine'
+import {getPastelColors, getSaturatedColors} from './colors'
 import {RecordingBar} from './recording-bar'
 import './App.css';
 
@@ -33,7 +34,7 @@ const App = ({ drumData }) => {
       setGTimeout(setTimeout(() => play(),2000)) 
       return;
     }
-  
+
     // bpm is 120
     // Quantizing 
     let newEvents = [];
@@ -63,7 +64,8 @@ const App = ({ drumData }) => {
         console.log(event);
         
         // TODO: Download the sounds so that it doesn't break when the url changes
-        playAudio(event.data.url)
+        console.log("event.data.id: ", event.data.id);
+        playAudio(event.data)
       },timeInFuture);
       timeoutList.push(t);
     })
@@ -101,14 +103,20 @@ const App = ({ drumData }) => {
           setStart(Date.now())
       }
   }
+
+  const pastelColors = getPastelColors();
+  const saturatedColors = getSaturatedColors();
+
   return (
     <>
-      <h1 style={{textAlign:"center"}}>Beats Composer</h1>
+      <h1 className="title" style={{textAlign:"center"}}>Beats Composer</h1>
       <main onKeyPress={e => { console.log(e.key); playAudioFromKeyboard(drumData, e.key); }}>
         <div style={{textAlign:"center"}}>
           <div className="pad">
           {drumData
-            .map(data => <DrumPad getIsRecording={getIsRecording}
+            .map((data,i) => <DrumPad 
+                                  color={saturatedColors[i]}
+                                  getIsRecording={getIsRecording}
                                   addEventHandler={addEvent} 
                                   key={data.id} data={data} 
                                   label={`${data.id} - ${data.keyTrigger}`}

@@ -1,47 +1,56 @@
 export const bankOne = [{
     keyCode: 81,
+    color: 0,
     keyTrigger: 'Q',
     id: 'Heater-1',
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3'
   }, {
     keyCode: 87,
     keyTrigger: 'W',
+    color: 1,
     id: 'Heater-2',
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3'
   }, {
     keyCode: 69,
     keyTrigger: 'E',
     id: 'Heater-3',
+    color: 2,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3'
   }, {
     keyCode: 65,
     keyTrigger: 'A',
     id: 'Heater-4',
+    color: 3,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3'
   }, {
     keyCode: 83,
     keyTrigger: 'S',
     id: 'Clap',
+    color: 4,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3'
   }, {
     keyCode: 68,
     keyTrigger: 'D',
     id: 'Open-HH',
+    color: 5,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3'
   }, {
     keyCode: 90,
     keyTrigger: 'Z',
     id: "Kick-n'-Hat",
+    color: 6,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3'
   }, {
     keyCode: 88,
     keyTrigger: 'X',
     id: 'Kick',
+    color: 7,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'
   }, {
     keyCode: 67,
     keyTrigger: 'C',
     id: 'Closed-HH',
+    color: 8,
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3'
   },
 ];
