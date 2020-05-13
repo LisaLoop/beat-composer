@@ -5,7 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(30,30,30);
+  /* background-color: rgb(30,30,30); */
+  background-image: url('/beats-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   color:white;
 }
 

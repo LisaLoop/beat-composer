@@ -125,7 +125,7 @@ const App = ({ drumData }) => {
           <div className="action-list">
             <RecordButton getIsRecording={getIsRecording}
                           onRecord={toggleRecording}/>
-            <RecordingBar/>
+            <RecordingBar getIsRecording={getIsRecording}/>
           </div>
         </div>
       </main>

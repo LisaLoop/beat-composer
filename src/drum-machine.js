@@ -23,7 +23,6 @@ export const playAudio = (data) => {
 export const playAudioFromKeyboard = (drums, code) => {
   const letter = code.toLowerCase();
   const data = drums.find(drum => drum.keyTrigger.toLowerCase() === letter);
-  console.log("data.id: ", data.id)
   if (data) playAudio(data);
 };
 
@@ -54,7 +53,7 @@ export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, color}) 
 export const RecordButton = ({onRecord, getIsRecording}) => {
     return (
         <button 
-        className={`record-button ${getIsRecording() ? 'recording-style':''}`}
+        className={`record-button ${getIsRecording() ? 'recording-style button-glow':''}`}
         onClick={onRecord}> </button>
     )
 }

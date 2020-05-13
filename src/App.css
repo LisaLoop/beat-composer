@@ -64,8 +64,17 @@
 }
 
 .internal-record-bar {
-  width:30%;
   background-color: rgb(85, 235, 118); 
 }
 
+@keyframes glowing {
+  0% { box-shadow: 0 0 -10px #c4a300; }
+  40% { box-shadow: 0 0 20px #c4a300; }
+  60% { box-shadow: 0 0 20px #c4a300; }
+  100% { box-shadow: 0 0 -10px #c4a300; }
+}
+
+.button-glow {
+  animation: glowing 5000ms infinite;
+}
 /* ["rgb(195, 91, 226)","rgb(190, 235, 76)","rgb(80, 230, 167)","rgb(98, 212, 243)","rgb(73, 232, 244)","rgb(206, 59, 235)","rgb(62, 179, 233)","rgb(100, 233, 73)","rgb(81, 75, 233)"] */
