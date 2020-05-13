@@ -50,6 +50,7 @@ export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, color}) 
 		
 }
 
+const hitRecordFromKeyboard = () => {}
 export const RecordButton = ({onRecord, getIsRecording}) => {
     return (
         <button 

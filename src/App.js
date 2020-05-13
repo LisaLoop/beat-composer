@@ -16,8 +16,9 @@ const App = ({ drumData }) => {
   const [start, setStart] = React.useState(null);
   const [events, setEvents] = React.useState([]);
   const [timeout, setGTimeout] = React.useState(null); 
+  const [multiplier, setMultiplier] = React.useState(1);
   let timeoutList = [];
-  const [isPlaying, setIsPlaying] = React.useState(false)
+  // const [isPlaying, setIsPlaying] = React.useState(false)
 
   const getIsRecording = () => {
     return isRecording
@@ -74,7 +75,17 @@ const App = ({ drumData }) => {
   }
   
   const addEvent = (data) => {
-    events.push({time: Date.now(), data: data})
+    if(multiplier !== 1){
+      let s = 2000/multiplier; // 2000/4 = 500
+      for(let i=0; i<multiplier; i++){
+        events.push({time: Date.now()+s*i, data: data}) 
+        // 4 -> 0 1 2 3, 2 -> 0, .5
+      }
+      setMultiplier(1)
+    } else {
+      events.push({time: Date.now(), data: data})
+    }
+    
     // console.log("events: ", events);
     // console.log("pitch: ", pitch);
     setEvents(events)
@@ -98,7 +109,7 @@ const App = ({ drumData }) => {
       } else {
           play()
           setIsRecording(true)
-          setEvents([]);
+          // setEvents([]);
           // TODO: as soon as user hits first note, start the 2 second delay
           setStart(Date.now())
       }
@@ -107,10 +118,18 @@ const App = ({ drumData }) => {
   const pastelColors = getPastelColors();
   const saturatedColors = getSaturatedColors();
 
+  const handleKeyboardInput = (e) => {
+    console.log(e.key); 
+    playAudioFromKeyboard(drumData, e.key); 
+    if(e.key == 1 || e.key == 2 || e.key === 3 || e.key == 4){
+      setMultiplier(parseInt(e.key,10))
+    }
+  }
+
   return (
     <>
       <h1 className="title" style={{textAlign:"center"}}>Beats Composer</h1>
-      <main onKeyPress={e => { console.log(e.key); playAudioFromKeyboard(drumData, e.key); }}>
+      <main onKeyPress={e => handleKeyboardInput(e)}>
         <div style={{textAlign:"center"}}>
           <div className="pad">
           {drumData
