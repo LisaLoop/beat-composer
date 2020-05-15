@@ -5,9 +5,9 @@ import {RecordingBar} from './recording-bar'
 import './App.css';
 
 /* TODO
-- Styling 
-- Show recording bar
-- Ability to stop/pause
+- Show new buttons in UI 1,2,3,4
+- Space bar should record
+- Pressing buttons in keyboard doesn't record
 - Add step sequencer to allow user to remove notes
 */
 
@@ -65,7 +65,7 @@ const App = ({ drumData }) => {
         console.log(event);
         
         // TODO: Download the sounds so that it doesn't break when the url changes
-        console.log("event.data.id: ", event.data.id);
+        // console.log("event.data.id: ", event.data.id);
         playAudio(event.data)
       },timeInFuture);
       timeoutList.push(t);
@@ -120,7 +120,12 @@ const App = ({ drumData }) => {
 
   const handleKeyboardInput = (e) => {
     console.log(e.key); 
-    playAudioFromKeyboard(drumData, e.key); 
+    const data = playAudioFromKeyboard(drumData, e.key);
+    if(getIsRecording()){
+      if(data){
+        addEvent(data)
+      }
+    }
     if(e.key == 1 || e.key == 2 || e.key === 3 || e.key == 4){
       setMultiplier(parseInt(e.key,10))
     }

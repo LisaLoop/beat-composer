@@ -1,5 +1,6 @@
 import React from 'react'
 import {getPastelColors, getSaturatedColors} from './colors'
+import {getIsRecording} from './App'
 
 // 120 bpm = 2hrtz
 
@@ -23,12 +24,16 @@ export const playAudio = (data) => {
 export const playAudioFromKeyboard = (drums, code) => {
   const letter = code.toLowerCase();
   const data = drums.find(drum => drum.keyTrigger.toLowerCase() === letter);
-  if (data) playAudio(data);
+  if (data) {
+	//   console.log("~", getIsRecording());
+	  playAudio(data)
+	};
+	return data;
 };
 
 export const playAudioFromDrumPad = (data) => {
 	console.log("data:", data);
-    playAudio(data)
+    playAudio(data);
 };
 
 export const DrumPad = ({ data, onHit, getIsRecording, addEventHandler, color}) => {
