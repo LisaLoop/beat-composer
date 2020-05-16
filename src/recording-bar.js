@@ -11,7 +11,7 @@ export const RecordingBar = ({ getIsRecording }) => {
                 setWidth(100)
             }
         }
-    }, [getIsRecording])
+    }, [width, getIsRecording])
 
     return (
         <div className={`external-record-bar ${getIsRecording() ? 'button-glow' : ''}`}>

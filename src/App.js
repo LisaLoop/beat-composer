@@ -1,14 +1,17 @@
 import React from 'react';
 import {playAudioFromDrumPad, playAudioFromKeyboard, DrumPad, RecordButton, playAudio} from './drum-machine'
-import {getPastelColors, getSaturatedColors} from './colors'
+import {getSaturatedColors} from './colors'
 import {RecordingBar} from './recording-bar'
 import './App.css';
 
 /* TODO
 - Show new buttons in UI 1,2,3,4
-- Space bar should record
-- Pressing buttons in keyboard doesn't record
 - Add step sequencer to allow user to remove notes
+- Let user switch between soundbanks
+- Download audio files to computer 
+- Pre-load all audio into the browser memory so there is no delay on keypress. 
+- Space bar should record ✅
+
 */
 
 const App = ({ drumData }) => {
@@ -18,7 +21,7 @@ const App = ({ drumData }) => {
   const [timeout, setGTimeout] = React.useState(null); 
   const [multiplier, setMultiplier] = React.useState(1);
   let timeoutList = [];
-  // const [isPlaying, setIsPlaying] = React.useState(false)
+  
 
   const getIsRecording = () => {
     return isRecording
@@ -29,8 +32,6 @@ const App = ({ drumData }) => {
   }
   const play = () => {
     let events = getEvents();
-    console.log("PLAY FUNCTION RAN");
-    console.log("events in PLAY: ", events);
     if(events.length === 0){
       setGTimeout(setTimeout(() => play(),2000)) 
       return;
@@ -39,7 +40,6 @@ const App = ({ drumData }) => {
     // bpm is 120
     // Quantizing 
     let newEvents = [];
-    // let songStartDelay = start - events[0].time;
     events.map((event) => {
       // allows the user time to play the first sound
       let st = events[0].time;
@@ -50,7 +50,7 @@ const App = ({ drumData }) => {
       // TODO:let user configure bpm 120/140...etc. 
       event.quantizedEvent = event.quantizedEvent % 2000; 
       newEvents.push(event)
-      
+      return undefined
     });
 
     newEvents.map((event) => {
@@ -60,15 +60,15 @@ const App = ({ drumData }) => {
       // if(timeInFuture > (2000 + songStartDelay)) { // not perfect, but it will give user more time to record
       //   return;
       // }
-      // TODO: clear timeout to pause the song
       let t = setTimeout(() => {
         console.log(event);
         
-        // TODO: Download the sounds so that it doesn't break when the url changes
-        // console.log("event.data.id: ", event.data.id);
         playAudio(event.data)
+        return
       },timeInFuture);
+
       timeoutList.push(t);
+      return undefined
     })
 
    setGTimeout(setTimeout(() => play(),2000))
@@ -115,26 +115,29 @@ const App = ({ drumData }) => {
       }
   }
 
-  const pastelColors = getPastelColors();
   const saturatedColors = getSaturatedColors();
 
   const handleKeyboardInput = (e) => {
-    console.log(e.key); 
+    console.log("e.key: ", e.key, " e.code: ", e.code);
+    if(e.code === 'KeyR'){
+      toggleRecording()
+    }
     const data = playAudioFromKeyboard(drumData, e.key);
     if(getIsRecording()){
       if(data){
         addEvent(data)
       }
     }
-    if(e.key == 1 || e.key == 2 || e.key === 3 || e.key == 4){
+    // Because music
+    if(e.key === "1" || e.key === "2" || e.key === "4" || e.key === "8"){
       setMultiplier(parseInt(e.key,10))
     }
   }
-
+  document.onkeydown = handleKeyboardInput; 
   return (
     <>
       <h1 className="title" style={{textAlign:"center"}}>Beats Composer</h1>
-      <main onKeyPress={e => handleKeyboardInput(e)}>
+      <main>
         <div style={{textAlign:"center"}}>
           <div className="pad">
           {drumData
